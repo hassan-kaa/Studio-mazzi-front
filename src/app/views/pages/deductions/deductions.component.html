@@ -1,0 +1,95 @@
+<div class="row">
+  <div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <p class="“text-muted”">
+          Here the description of the Income and what is it about .
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="table-responsive">
+  <table class="table table-hover mb-0">
+    <thead>
+      <tr>
+        <!-- <th class="pt-0">Id</th>
+          <th class="pt-0">Name</th>
+          <th class="pt-0">Type</th>
+          <th class="pt-0">Expiration Date</th>
+          <th class="pt-0">Required</th>
+          <th class="pt-0">Options</th> -->
+        <th>ID</th>
+        <th>Created at</th>
+        <th>Updated at</th>
+        <th>Fields</th>
+      </tr>
+    </thead>
+    <!-- <tbody *ngFor="let field of rows">
+        <tr>
+          <td>{{ field._id }}</td>
+          <td>{{ field.name }}</td>
+          <td>{{ field.fieldType }}</td>
+          <td>{{ field.expirationDate }}</td>
+          <td>
+            <span *ngIf="field.required" class="badge bg-danger">Required</span>
+            <span *ngIf="!field.required" class="badge bg-success">Optional</span>
+          </td>
+  
+          <td>
+            <span
+              *ngFor="let option of field.options"
+              class="badge bg-primary option-badge"
+            >
+              {{ option }}
+            </span>
+            <div *ngIf="!hasOptions(field)">
+              <i class="feather icon-x icon-md text-danger me-2"></i>
+              <i class="feather icon-x icon-md text-danger me-2"></i>
+              <i class="feather icon-x icon-md text-danger me-2"></i>
+            </div>
+          </td>
+        </tr>
+      </tbody> -->
+    <tbody *ngFor="let template of rows">
+      <tr>
+        <td>{{ template._id }}</td>
+        <td>{{ formatDate(template.createdAt) }}</td>
+        <td>{{ formatDate(template.updatedAt) }}</td>
+        <td>
+          <table class="table table-hover mb-0">
+            <tbody *ngFor="let field of template.fields">
+              <tr>
+                <td>{{ field.name }}</td>
+                <td>{{ field.fieldType }}</td>
+                <td>{{ field.expirationDate }}</td>
+                <td>
+                  <span *ngIf="field.required" class="badge bg-danger"
+                    >Required</span
+                  >
+                  <span *ngIf="!field.required" class="badge bg-success"
+                    >Optional</span
+                  >
+                </td>
+
+                <!-- <td>
+                  <span
+                    *ngFor="let option of field.options"
+                    class="badge bg-primary option-badge"
+                  >
+                    {{ option }}
+                  </span>
+                  <div *ngIf="!hasOptions(field)">
+                    <i class="feather icon-x icon-md text-danger me-2"></i>
+                    <i class="feather icon-x icon-md text-danger me-2"></i>
+                    <i class="feather icon-x icon-md text-danger me-2"></i>
+                  </div>
+                </td> -->
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

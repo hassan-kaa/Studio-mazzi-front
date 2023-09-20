@@ -1,0 +1,149 @@
+<div class="row" *ngFor="let template of templates">
+  <div class="col-12 col-xl-12 stretch-card">
+    <div class="row flex-grow-1">
+      <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="row">
+            <div class="col-12">
+              <div class="mt-md-3 mt-xl-0">
+                <div class="row">
+                  <div class="col-xl-12"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-hover mb-0">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Created at</th>
+        <th>Updated at</th>
+        <th>Expires on</th>
+        <th>Status</th>
+        <th>Fields</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody *ngFor="let template of templates">
+      <tr>
+        <td>{{ template._id }}</td>
+        <td>{{ formatDate(template.createdAt) }}</td>
+        <td>{{ formatDate(template.updatedAt) }}</td>
+        <td>{{ template.expirationDate }}</td>
+        <td>
+          <span [ngClass]="getExpirationStatusClass(template)">
+            {{ expirationStatus(template) }}
+          </span>
+        </td>
+        <td>
+          <span
+            *ngFor="let field of template.fields"
+            class="badge bg-primary option-badge m-1"
+          >
+            {{ field.name }}
+          </span>
+        </td>
+        <td>
+          <button
+            [disabled]="expirationStatus(template) == 'Expired'"
+            (click)="openTemplateModal(templateModal, template)"
+            class="btn btn-success py-0"
+            pTooltip="edit"
+            tooltipPosition="left"
+          >
+            <i class="feather icon-edit btn-icon-prepend"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal -->
+<ng-template #templateModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Template details</h5>
+    <button
+      type="button"
+      class="btn-close"
+      (click)="modal.close('by: close icon')"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <div class="col-md-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <div class="row mb-3">
+            <label for="id" class="col-sm-3 col-form-label">ID</label>
+            <p id="id">{{ selectedTemplate._id }}</p>
+          </div>
+          <div class="row mb-3">
+            <label for="createdAt" class="col-sm-3 col-form-label"
+              >createdAt</label
+            >
+            <p id="createdAt">{{ formatDate(selectedTemplate.createdAt) }}</p>
+          </div>
+          <div class="row mb-3">
+            <label for="updatedAt" class="col-sm-3 col-form-label"
+              >updatedAt</label
+            >
+            <p id="updatedAt">{{ formatDate(selectedTemplate.updatedAt) }}</p>
+          </div>
+          <div class="row mb-3">
+            <label for="fields" class="col-sm-3 col-form-label">Fields</label>
+
+            <form
+              (keydown.enter)="$event.preventDefault()"
+              class="forms-sample"
+            >
+              <div
+                *ngFor="let item of selectedTemplate.fields"
+                class="row mb-3"
+              >
+                <div class="col-sm-9">
+                  <label for="inputName"
+                    >{{ item.name }}
+                    <span
+                      [ngStyle]="{
+                        color:
+                          expirationStatus(selectedTemplate) == 'Completed'
+                            ? 'green'
+                            : 'red'
+                      }"
+                      >expires on
+                      {{
+                        formatDate(item.expirationDate) || "22-05-2023"
+                      }}</span
+                    ></label
+                  >
+                  <input
+                    id="inputName"
+                    [type]="item.fieldType"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.close()">
+      Cancel
+    </button>
+    <button type="button" class="btn btn-primary" (click)="onUpdate(modal)">
+      Update
+    </button>
+  </div>
+</ng-template>
